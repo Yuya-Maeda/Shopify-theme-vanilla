@@ -1,0 +1,106 @@
+<style>
+.login-container {
+    display: flex;
+    justify-content: center;
+}
+
+.forget-password-form {
+    height:0px;
+    overflow: hidden;
+    transition: 0.5s ease-in;
+    animation-fill-mode: forwards;
+}
+#forgetPassword:visited .forget-password-form,
+#forgetPassword:hover .forget-password-form{
+    height: 100%;
+}
+</style>
+{%- comment -%}This is for sticky header {%- endcomment -%}
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+<section class="login-container">
+    <div class="theme-form">
+        <h1>お客様ログイン(Test)</h1>
+
+        {% form 'customer_login' %}
+            <div class="form-control">
+                <label for="customer_email">E-mail</label>
+                <input id="customer_email" name="customer[email]" type="text">
+            </div>
+            <div class="form-control">
+                <label for="customer_password" name="customer[password]">
+                    Password
+                </label>
+                <input id="customer_password" type="password">
+            </div>
+
+            <input class="btn btn-tertiary" type="submit" value="Log In"/>
+
+
+        {% endform %}
+
+        <div id="forgetPassword" style="margin-top: 40px;">
+            <button class="btn btn-secondary">パスワードをお忘れの方</button>
+
+            <div class="forget-password-form" style="margin-top: 30px;">
+
+                <p>ご登録済みのE-mailを入力し送信してください。</p>
+                <p>ご案内のE-mailが自動で届きます。ご確認ください。</p>
+                {% form 'recover_customer_password' %}
+
+                    {{ form.errors | default_errors }}
+                    <div class="form-control">
+                        <label for="customer_email">Email Address</label>
+                        <input name="email" type="email"/>
+                    </div>
+
+                    <input class="btn btn-secondary" type="submit" value="送信"/>
+
+                {% endform %}
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{%- comment -%}
+Shopify: quiet-now.myshopify.com
+Test Login 
+Test Email: test@strmgmt.biz
+password: testpassword-shopify
+
+{%- endcomment -%}
+
+{%- comment -%}
+Theme kit Default Log in Form
+<!-- /templates/customers/login.liquid -->
+
+<h2>Login</h2>
+{% form 'customer_login' %}
+
+{{ form.errors | default_errors }}
+
+<label for="customer_email">Email Address</label>
+<input type="email" name="customer[email]" />
+
+<label for="customer_password">Password</label>
+<input type="password" name="customer[password]" />
+
+<input type="submit" value="Sign In" />
+
+{% endform %}
+
+<h2>Forgot Password</h2>
+{% form 'recover_customer_password' %}
+
+{{ form.errors | default_errors }}
+
+<label for="customer_email">Email Address</label>
+<input type="email" name="email" />
+
+<input type="submit" value="Submit" />
+
+{% endform %}
+
+{%- endcomment -%}

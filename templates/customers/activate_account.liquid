@@ -1,0 +1,63 @@
+<style>
+  .activate-account-container {
+    display:flex;
+    justify-content: center;
+  }
+  
+</style>
+{%- comment -%}This is for sticky header {%- endcomment -%}
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+<div class="activate-account-container">
+  <div class="theme-form">
+    <h1>アカウントの有効化</h1>
+    <p>ご希望のパスワードを設定してください。</p>
+    <p>*8文字以上の英数字</p>
+    {% form 'activate_customer_password' %}
+    {{ form.errors | default_errors }}
+    <div class="form-control">
+      <div class="password">
+        <label for="password">希望するパスワード入力</label>
+        <input type="password" name="customer[password]" />
+      </div>
+    </div>
+    
+    <div class="form-control">
+      <div class="password_confirm">
+        <label for="password_confirmation">パスワードの確認</label>
+        <input type="password" name="customer[password_confirmation]" />
+      </div>
+    </div>
+   
+      <!-- <div class="action_bottom">
+      </div> -->
+      <input class="btn btn-tertiary"type="submit" value="アカウントを有効にする。" />
+
+        <div style="text-align: center;">もしくは</div>
+
+      <input class="btn btn-secondary" type="submit" name="decline" value="招待を辞退" />
+    
+    {% endform %}
+  </div>
+</div>
+
+{%- comment -%}
+Theme kit default liquid
+<!-- /templates/customers/activate_account.liquid -->
+{% form 'activate_customer_password' %}
+{{ form.errors | default_errors }}
+<div class="password">
+  <label for="password">Password</label>
+  <input type="password" name="customer[password]" />
+</div>
+<div class="password_confirm">
+  <label for="password_confirmation">Password Confirmation</label>
+  <input type="password" name="customer[password_confirmation]" />
+</div>
+<div class="action_bottom">
+  <input type="submit" value="Activate Account" />
+  <span>or</span>
+  <input type="submit" name="decline" value="Decline Invitation" />
+</div>
+{% endform %}
+{%- endcomment -%}

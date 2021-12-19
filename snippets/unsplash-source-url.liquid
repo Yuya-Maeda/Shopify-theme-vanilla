@@ -1,0 +1,5 @@
+{%- assign min = 1 -%}
+{%- assign max = 200 -%}
+{%- assign diff = max | minus: min -%}
+{%- assign random_number = "now" | date: "%N" | modulo: diff | plus: min -%}
+https://source.unsplash.com/collection/{{ random_number}}

@@ -1,0 +1,23 @@
+/* metafields-table */
+.metafields-table {
+    background-color: var(--color-palette-2);
+    color: var(--color-text-light);
+    border-radius: 5px;
+    padding: 5px;
+    border-spacing: 5px;
+    width: 100%;
+    thead th {
+        border-bottom: 3px solid var(--color-text-light);
+    }
+    tbody {
+        td {
+            padding: 3px;
+            border-bottom: 1px solid var(--color-text-light);
+        }
+    }
+        tfoot td {
+        text-align: end;
+    }
+    
+}
+

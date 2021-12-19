@@ -1,0 +1,15 @@
+{
+    "name": "Product",
+    "sections": {
+      "main": {
+        "type": "main-product-radio-btn"
+      },
+      "recommendations": {
+          "type": "product-recommendations" 
+        }
+    },
+    "order": [
+      "main",
+      "recommendations"
+    ]
+  }

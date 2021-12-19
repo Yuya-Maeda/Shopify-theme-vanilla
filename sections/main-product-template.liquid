@@ -1,0 +1,493 @@
+<style>
+    .product-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto ;
+        grid-template-areas: "product-image product-description";
+        grid-gap: 10px;
+    
+    }
+    @media screen and (max-width:749px) {
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+            grid-template-areas: "product-image" "product-description";
+        }
+    }
+    
+    .product-image-box {
+        grid-area: product-image;
+        
+        margin: 10px 5px 10px 5px;
+
+    }
+    
+    .featured-image-box {
+        position: relative;
+        display: flex;
+        flex-direction: center;
+        width:100%;
+        border-radius: 5px;
+        box-shadow: 0px 10px 15px rgba(0,0,0,0.5);
+
+
+        padding:10px;
+        background-color: var(--color-palette-1);
+        
+    }
+    .featured-image-box img {
+        width: 100%;
+        height:100%; 
+
+        border-radius: 5px;
+        object-fit: 100%;
+    }
+    
+    .thumnail-box {
+        display: flex;
+        justify-content: center ;
+        flex-wrap: wrap;
+        margin: 10px 5px 10px 5px;
+    }
+    .thumnail-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width:110px;
+        background-color: var(--color-palette-1);
+        
+        padding:5px;
+        margin: 5px 5px;
+        border-radius: 5px;
+    }
+    .thumnail-card a {
+        text-decoration: none;
+        text-align: center;
+    }
+    .thumnail-card h5 {
+        color: var(--color-text-light);
+        text-align: center;
+    }
+    .thumnail-image {
+        width:100px;
+        height:100px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    /* Product Infromation box  */
+    .product-information-box {
+        grid-area: product-description;
+        margin: 20px 0;
+
+    }
+    .product-title-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 5px 10px 5px;
+    }
+    .product-title-box h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: var(--color-text-dark)
+    }
+    .product-title-box small {
+        font-size: 1.2rem;
+        color: var(--color-palette-2);
+    }
+    .product-variants-master-select {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: var(--color-palette-1);
+        border-radius: 5px;
+        padding:5px;
+        margin: 10px 5px 10px 5px;
+    }
+    .product-variants-master-select .form-control{
+        margin: 10px 5px 10px 5px;
+    }
+    .product-variants-master-select select {
+        background-color: var(--color-text-light);
+        border-radius: 5px;
+        width: 100%;
+        font-size: 1.2rem;
+    }
+    .product-information-box h3 {
+        text-align: end;
+        padding: 5px;
+        margin-right: 20px;
+        font-size: 1.3rem;
+    }
+    .product-information-box h4 {
+       
+        margin-right: 20px;
+        padding: 5px;
+        font-size: 1.1rem;
+       
+    }
+    .product-information-box .quantity {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        color: var(--color-text-light);
+    }
+    .product-information-box .quantity label {
+        margin: 5px 10px;
+    }
+    .product-information-box .quantity input {
+        margin: 5px 10px;
+    }
+    /* product-description  */
+    .product-description-box {
+        padding: 5px;
+        margin: 10px 5px 10px 5px;
+        }
+    /* table CSS for inside of product.description */    
+    
+    .product-description-box table{
+        
+        color: var(--color-text-dark);
+        border-radius: 5px;
+        padding: 5px;
+        border-spacing: 5px;
+        width: 100%;
+    }
+    .product-description-box table td {
+        padding: 3px;
+        border-bottom: 1px solid var(--color-text-dark);
+    }
+    .product-metafields-myfields {
+        margin: 10px 5px 10px 5px;
+    }
+
+
+</style>
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image -%}
+
+<div class="product-container page-width">
+    <div class="product-image-box">
+       
+                <!-- Current Variant image  -->
+        <div class="featured-image-box">
+            <img src="{{ featured_image | img_url: '2048x'}}" alt="{{ featured_image.alt }}">
+            {% render 'sale-new-badge' product:product %}
+        </div>
+
+        <!-- all variant image  -->
+        <div class="thumnail-box">
+            {% for variant in product.variants %}
+                <div class="thumnail-card">
+                    <a href="{{ variant.url }}">
+                        {% if variant.featured_image != blank  %}
+                        <img class="thumnail-image" src="{{ variant.featured_image | img_url: '2048x'}}" alt="">
+                        {% else %}
+                        <img class="thumnail-image" src="{{ product.featured_image | img_url: '2048x'}}" alt="">  
+                        {% endif %}
+                        <h5>{{ variant.title }}</h5>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+    
+
+    <!-- product-infromation-box  -->
+    <div class="product-information-box">
+
+        <div class="product-title-box">
+            <h2>{{ product.title }}</h2>
+            <small>{{ product.title }} - {{ product.selected_or_first_available_variant.title}}</small>
+        </div>
+
+        <script type="text/javascript">
+            window.product = {{ product | json }} || {};
+            console.log(window.product)
+        </script>
+        <!-- price box  -->
+         <div class="product-price-box">
+             
+             {% if product.compare_at_price and product.compare_at_price != product.price %}
+             <h3 style="color: darkred;">Sale Price! {{ product.selected_or_first_available_variant.price | money }}</h3>
+             <h4 style="text-decoration: line-through; text-align: end;" >{{ product.compare_at_price | money }}</h4>
+             {% else %}
+             <h3>{{ product.selected_or_first_available_variant.price | money }}</h3>
+             {% endif %}
+        </div>
+
+        <!-- variant option selector  -->
+        <div class="variant-select" style="display:none">
+            {% for product_option in product.options_with_values %}
+                <select data-index="option{{forloop.index}}" id="" name="">
+                    {% for value in product_option.values %}
+                        <option value="{{ value | escape }}">{{ value }}</option>
+                    {% endfor %}
+                </select>
+            {% endfor %}
+        </div>
+
+       
+
+     
+
+        {%- comment -%}
+            {% if product.price != product.price_max %}
+                <h5 style="text-align: end; margin: 5px 20px;">{{ product.price | money }}〜{{ product.compare_at_price | money }}</h5>
+            {% endif %}
+            {%- endcomment -%}
+        
+        <div class="product-variants-master-select">
+            
+            
+            <form action="/cart/add" enctype="multipart/form-data" id="AddToCartForm" method="post">
+
+                <div class="form-control">
+                    <select id="productSelect" name="id">
+                        {% for variant in product.variants %}
+                            {% if variant.available %}
+                                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                                    {{ variant.title }}
+                                    -
+                                    {{ variant.price | money_with_currency }}
+                                </option>
+                            {% else %}
+                                
+                                <option disabled="disabled">
+                                    {{ variant.title }}
+                                    - sold out
+                                </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                <div class="form-control quantity">
+                    <label for="Quantity">数量</label>
+                    <input id="Quantity" min="1" name="quantity" type="number" value="1">
+                </div>
+
+                <div class="form-control">
+                    <button class="btn btn-primary" id="AddToCart" name="add" type="submit">カートに入れる</button>
+                </div>
+            </form>
+        </div>
+        <!-- product descrtiption box -->
+        <div class="product-description-box">
+            {{ product.description }}
+        </div>
+
+        <!-- product metafields table  -->
+        <div class="product-metafields-myfields">
+          {% render 'product-metafields-table' product:product %}
+        </div>
+
+        
+        <!-- APP Product Reviews  -->
+        <style>
+            .spr-container {
+                border-radius: 5px;
+                background-color: var(--color-palette-1);
+                margin: 10px 5px 10px 5px;
+            }
+            .spr-form {
+                color: var(--color-text-light);
+            }
+            .spr-header-title {
+                color: var(--color-text-light);
+            }
+            .spr-summary-caption {
+                color: var(--color-text-light);
+            }
+            .spr-summary-actions-newreview {
+                color: var(--color-text-light)
+            }
+            .spr-form-title {
+                color: var(--color-text-light);
+            }
+            .spr-form-label {
+                color: var(--color-text-light);
+            }
+            .spr-form-input {
+                background: transparent;
+                color: var(--color-text-light);
+                border: none;
+                border-bottom: 2px solid var(--color-text-light);
+            }
+            .spr-form-input ::placeholder {
+                
+                
+            }
+            .spr-form-input-textarea {
+                border: none;
+                border: 2px solid var(--color-text-light);
+            }
+            .spr-button {
+                cursor: pointer;
+                width: 100%;
+                margin: 5px 0px 5px 0px;
+                padding: 5px;
+                border: 2px solid var(--color-text-light);
+                border-radius: 5px;
+                
+                text-align: center;
+                font-size: 1.1rem;
+                font-weight: bold;
+                vertical-align: middle;
+                
+                filter: brightness(1.3);
+
+                transition: 50ms ease-in;
+
+
+                background-color: var(--color-button-tertiary) ;
+                color: var(--color-text-light);
+            }
+                
+            .spr-button:active {
+                transform:scale(0.8);
+                border: 3px solid var(--color-text-light);
+                background: var(--color-palette-1);
+                color:var(--color-text-light);
+                filter: brightness(0.8);
+            }
+            .spr-review-header-title {
+                color:var(--color-text-light)
+            }
+            .spr-review-header-byline {
+                color: var(--color-text-light);
+            }
+            .spr-review-content-body {
+                color: var(--color-text-light);
+            }
+
+        </style>
+        <div class="product-reviews-box">
+            <div id="shopify-product-reviews" data-id="{{product.id}}">
+                {{ product.metafields.spr.reviews }}
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+<!-- sticky addtocartform  -->
+<style>
+    .sticky-addtocartform-box {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: var(--color-palette-1);
+        
+        padding:5px;
+        z-index: 1;
+        transition: 1s ease-in-out;
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    .sticky-on {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .sticky-addtocartform-box .form-control {
+        margin: 5px 5px 5px 5px ;
+        text-align: center;
+    }
+
+    .sticky-addtocartform-box select {
+        background-color: var(--color-text-light);
+        border-radius: 5px;
+        font-size: 1.2rem;
+        width: 100%;
+    }
+    
+</style>
+
+
+
+<div class="sticky-addtocartform-box">
+    <form action="/cart/add" enctype="multipart/form-data" id="stickyAddToCartForm" method="post">
+
+        <div class="form-control">
+            <select id="stickyProductSelect" name="id">
+                {% for variant in product.variants %}
+                    {% if variant.available %}
+                        <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                            {{ variant.title }}
+                            -
+                            {{ variant.price | money_with_currency }}
+                        </option>
+                    {% else %}
+                        <option disabled="disabled">
+                            {{ variant.title }}
+                            - sold out
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <!-- <div class="form-control quantity">
+            <label for="stickyQuantity">数量</label>
+            <input id="stickyQuantity" min="1" name="quantity" type="number" value="1">
+        </div> -->
+
+        <div class="form-control">
+            <button class="btn btn-primary" id="stickyAddToCart" name="add" type="submit">カートに入れる</button>
+        </div>
+    </form>
+
+    <script>
+
+        //sticky-addtocartform box popu up 
+        const initialCoords = document.querySelector('.sticky-addtocartform-box').getBoundingClientRect()
+        const stickyAddToCartFormBox = document.querySelector('.sticky-addtocartform-box')
+        // console.log(initialCoords)
+
+        window.addEventListener('scroll', function () {
+            // console.log(window.scrollY > initialCoords.top)
+            if(window.scrollY > initialCoords.top +50 ) {
+                console.log("on")
+                stickyAddToCartFormBox.classList.add('sticky-on')
+            } else {
+                console.log("off")
+                // stickyAddToCartFormBox.classList.remove('sticky-on')
+            }
+        }
+        );
+
+        // const stickyAddToCartFormBox = document.querySelector('.sticky-addtocartform-box');
+        // // console.log(stickyAddToCartFormBox,'stickyaddto')
+        // const  productVariantsMasterSelect = document.querySelector('.product-variants-master-select')
+        // // console.log(productVariantsMasterSelect,"productvariant test")
+        
+        // const  stickyOn = function (entries){
+        //     console.log(entries)
+        //     const [entry] = entries;
+          
+        // };
+        
+        // const masterSelectObserver = new IntersectionObserver(stickyOn, {
+        //     root: null,
+        //     threshold:1,
+        // })
+        
+        // masterSelectObserver.observe(stickyAddToCartFormBox)
+    </script>
+        

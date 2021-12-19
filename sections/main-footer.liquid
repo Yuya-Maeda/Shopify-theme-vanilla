@@ -1,0 +1,119 @@
+<footer class="footer">
+    <div class="inner-container page-width">
+        {% for block in section.blocks %}
+            {% case block.type %}
+
+                {% when 'logo_text'%}
+
+                    <div class="block-box">
+                        <img alt="" src="{{ block.settings.logo | img_url: '2048x' }}"/>
+                        <h2>{{ block.settings.logo_title }}</h2>
+                        <p>{{ block.settings.textarea }}</p>
+                    </div>
+
+                {% when 'link_list' %}
+
+                    <div class="block-box">
+                        <h2>{{ block.settings.link_title}}</h2>
+
+                        {% assign footer_linklist = block.settings.link_list %}
+                        <ul class="list-unstyled text-small">
+                            {% for link in linklists[footer_linklist].links %}
+                                <li>
+                                    <a href="{{ link.url }}">{{ link.title | escape}}
+                                    </a>
+                                </li>
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                {% when 'news_letter' %}
+                    <div class="block-box">
+                        <h2>{{ block.settings.news_letter_title }}</h2>
+                        {% render 'news-letter' %}
+                        <p style="margin: 20px 0px;">
+                            {{ block.settings.news_letter_textarea }}
+                        </p>
+                        <div class="social-icon-box">
+                            {% render 'social-icon-UI' %}
+                        </div>
+                    </div>
+
+                {% else %}
+            {% endcase %}
+        {% endfor %}
+    </div>
+
+    <!-- Payment-method  -->
+    <div class="footer-payment-method-box">
+        {% render 'payment-methods-sample' %}
+    </div>
+
+
+</footer>
+
+<div class="footer-credit-box">All right received@{{ shop.name }}</div>
+
+{% schema %}
+
+{
+    "name": "footer",
+    "max_blocks": 3,
+    "blocks": [
+        {
+            "name": "Logo Text",
+            "type": "logo_text",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "logo",
+                    "label": "Logo Square"
+                }, {
+                    "type": "text",
+                    "id": "logo_title",
+                    "label": "Title",
+                    "default": "Title"
+                }, {
+                    "type": "textarea",
+                    "id": "textarea",
+                    "label": "Text",
+                    "default": "About your online store."
+                }
+            ]
+        }, {
+            "name": "Link List",
+            "type": "link_list",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "link_title",
+                    "label": "Link Title",
+                    "default": "Link Title"
+                }, {
+                    "type": "link_list",
+                    "id": "link_list",
+                    "label": "Footer Link"
+                }
+            ]
+        }, {
+            "name": "News Letter Register",
+            "type": "news_letter",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "news_letter_title",
+                    "label": "News Letter Title",
+                    "default": "Subscribe us!"
+                }, {
+                    "type": "textarea",
+                    "id": "news_letter_textarea",
+                    "label": "News Letter Description",
+                    "default": "Subscribe our news letter and get new infromation. ニュースレターにて新商品やお得な情報を配信中。"
+                }
+            ]
+        }
+    ]
+}
+
+{% endschema %}

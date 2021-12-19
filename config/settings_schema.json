@@ -1,0 +1,84 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "vanilla-CSS",
+    "theme_version": "1.0.0",
+    "theme_author": "Yuya",
+    "theme_documentation_url": "https://quiet-now.myshopify.com",
+    "theme_support_url": "https://quiet-now.myshopify.com"
+  },
+  {
+    "name": "色",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Storeの色"
+      },
+      {
+        "type":"color",
+        "id": "color_palette_1",
+        "default": "#4F5859",
+        "label": "Color palette 1",
+        "info": "Primary dark color"
+      },
+      {
+        "type":"color",
+        "id": "color_palette_2",
+        "default": "#A6620F",
+        "label": "Color palette 2",
+        "info": "Secondary dark color"
+      },
+      {
+        "type": "color",
+        "id": "color_palette_3",
+        "default": "#BFACA4",
+        "label": "Color palette 3",
+        "info": "Primary lighter color"
+      },
+      {
+        "type":"color",
+        "id": "color_palette_4",
+        "default": "#D97C0B",
+        "label": "Color palette 4",
+        "info": "Secondary lighter color"
+      },
+      {
+        "type":"color",
+        "id": "color_palette_5",
+        "default": "#BFACA4",
+        "label": "Color palette 5",
+        "info": "Tertiary color"
+      },
+      {
+        "type": "color",
+        "id": "color_dark_text",
+        "default": "#261008",
+        "label": "Darker text color"
+      },
+      {
+        "type": "color",
+        "id": "color_light_text",
+        "default": "#DCD6D6",
+        "label": "Lighter text color"
+      },
+      {
+        "type": "color",
+        "id": "color_button_primary",
+        "default": "#D97904",
+        "label": "Primary button color"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary",
+        "default": "#A6A6A6",
+        "label": "Secandary button color"
+      },
+      {
+        "type": "color",
+        "id": "color_button_tertiary",
+        "default": "#4F5859",
+        "label": "Tertiary button color"
+      }
+    ]
+  }
+]

@@ -1,0 +1,188 @@
+<style>
+   
+</style>
+{%- comment -%}This is for sticky header {%- endcomment -%}
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+<section class="page-width">
+    {%- paginate collection.products by 8 -%}
+
+        <div class="page-title">
+            {% if collection.image != blank %}
+
+                <img alt="" src="{{ collection.image | img_url: '2048x'}}">
+            {% else %}
+                <img alt="" src="https://source.unsplash.com/collection/2">
+            {% endif %}
+            <div>
+                <h1>{{ collection.title }}</h1>
+                <p>{{ collection.description }}</p>
+            </div>
+        </div>
+        <div class="collection">
+
+            <div class="collection-filter">
+
+                <div class="inner-box">
+                    <select id="sort_by">
+                        {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+                        {% for option in collection.sort_options %}
+                            <option value="{{ option.value }}" {% if option.value == sort_by %} selected="selected" {% endif %}>
+                                {{ option.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="collection-sidebar">
+
+                <h2>{{ section.settings.title_1 }}</h2>
+                <ul>
+                    {%- for link in linklists[section.settings.link_list_1].links -%}
+                        <li>
+                            <a class="first-link" href="{{ link.url }}" {% if link.active %} aria-current="page" {% endif %}>
+                                {{ link.title }}
+                            </a>
+
+                            {%- if link.links != blank -%}
+                                <ul>
+                                    {%- for child_link in link.links -%}
+                                        <li>
+                                            <a href="{{ child_link.url }}" {% if child_link.active %} aria-current="page" {% endif %}>
+                                                {{ child_link.title }}
+                                            </a>
+
+                                            {%- if child_link.links != blank -%}
+                                                <ul>
+                                                    {%- for grandchild_link in child_link.links -%}
+                                                        <li>
+                                                            <a href="{{ grandchild_link.url }}" {% if grandchild_link.active %} aria-current="page" {% endif %}>
+                                                                {{ grandchild_link.title }}
+                                                            </a>
+                                                        </li>
+                                                    {%- endfor -%}
+                                                </ul>
+                                            {%- endif -%}
+
+                                        </li>
+                                    {%- endfor -%}
+                                </ul>
+                            {%- endif -%}
+
+                        </li>
+                    {%- endfor -%}
+                </ul>
+
+
+                <h2>{{ section.settings.title_2 }}</h2>
+                <ul>
+                    {%- for link in linklists[section.settings.link_list_2].links -%}
+                        <li>
+                            <a class="first-link" href="{{ link.url }}" {% if link.active %} aria-current="page" {% endif %}>
+                                {{ link.title }}
+                            </a>
+
+                            {%- if link.links != blank -%}
+                                <ul>
+                                    {%- for child_link in link.links -%}
+                                        <li>
+                                            <a href="{{ child_link.url }}" {% if child_link.active %} aria-current="page" {% endif %}>
+                                                {{ child_link.title }}
+                                            </a>
+
+                                            {%- if child_link.links != blank -%}
+                                                <ul>
+                                                    {%- for grandchild_link in child_link.links -%}
+                                                        <li>
+                                                            <a href="{{ grandchild_link.url }}" {% if grandchild_link.active %} aria-current="page" {% endif %}>
+                                                                {{ grandchild_link.title }}
+                                                            </a>
+                                                        </li>
+                                                    {%- endfor -%}
+                                                </ul>
+                                            {%- endif -%}
+
+                                        </li>
+                                    {%- endfor -%}
+                                </ul>
+                            {%- endif -%}
+
+                        </li>
+                    {%- endfor -%}
+                </ul>
+
+            </div>
+
+
+            <div class="collection-items">
+
+                    <div class="inner-box">
+                      {% for product in collection.products %}
+                          <div>
+                              {% render 'product-card-slide' product:product %}
+                          </div>
+                      {% endfor %}
+                    </div>
+
+                {% render 'pagination' paginate: paginate %}
+            </div>
+
+            <!-- {{ paginate | default_pagination: next: 'Older', previous: 'Newer' }} -->
+        </div>
+    {%- endpaginate -%}
+
+</section>
+{% schema %}
+
+{
+    "name": "sidebar-menu1",
+    "settings": [
+        {
+            "type": "text",
+            "id": "title_1",
+            "label": "Sidebar Title 1",
+            "default": "Sidebar Title 1"
+        }, {
+            "type": "link_list",
+            "id": "link_list_1",
+            "label": "Sidebar Link List 1"
+        }, {
+            "type": "text",
+            "id": "title_2",
+            "label": "Sidebar Title2",
+            "default": "Sidebar Title 2"
+        }, {
+            "type": "link_list",
+            "id": "link_list_2",
+            "label": "Sidebar Link List 2"
+        }
+    ]
+}
+
+{% endschema %}
+
+{%- comment -%}
+
+    {% paginate collection.products by 2 %}
+    <h1>{{ collection.title }}</h1>
+    {% for product in collection.products %}
+    <div>
+      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+      {{ product.price | money }}
+      {% unless product.available %}<br><strong>sold out</strong>{% endunless %}
+      <a href="{{ product.url | within: collection }}">
+        <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+      </a>
+    </div>
+    {% else %}
+    <p>no matches</p>
+    {% endfor %}
+    {% if paginate.pages > 1 %}
+    {{ paginate | default_pagination }}
+    {% endif %}
+    {% endpaginate %}
+    
+    {%- endcomment -%
+{%- endcomment -%}}

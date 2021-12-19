@@ -1,0 +1,28 @@
+<div class="blog-mini-card">
+    <a href="{{ article.url }}">
+        <div class="image-box">
+            {% if article.image != blank %}
+                <img src="{{ article.image | img_url: '2048x'}}" alt="{{ article.image.alt}}">
+            {% else %}
+                <img alt="" src=" {% render 'unsplash-source-url' %}">
+            {% endif %}
+            <div class="title-box">
+                <h2>
+                    {{ article.title }}
+                </h2>
+                <p>
+                    {{ article.created_at | date: '%Y-%m-%d'}}
+                </p>
+            </div>
+        </div>
+        <div class="excerpt">
+            <div class="inner-box">
+                {% if article.excerpt.size > 0 %}
+                    <p>{{ article.excerpt }}</p>
+                {% else %}
+                    <p>{{ article.content | strip_html | truncate: 100 }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+</div>

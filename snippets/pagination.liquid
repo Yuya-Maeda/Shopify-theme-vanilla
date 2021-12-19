@@ -1,0 +1,74 @@
+{%- comment -%}
+Pagination sample from shopify 
+https://www.shopify.com/partners/blog/shopify-pagination
+{%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+<div class="pagination">
+    <nav class="pagination-nav" role="navigation">
+        <ol>
+          {%- if paginate.previous-%}
+            <li>
+              <a href="{{ paginate.previous.url }}">
+                <span aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                      </svg>
+                </span>
+                前へ <span class="visuallyhidden">page</span>
+              </a>
+            </li>
+          {%- else -%}
+            <li class="disabled">
+              <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+              </svg></span>
+              前へ <span class="visuallyhidden">page</span>
+            </li>
+          {%- endif -%}
+  
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <li>
+                <a href="{{ part.url }}">
+                  <span class="visuallyhidden">page</span> {{ part.title }}
+                </a>
+              </li>
+            {%- else -%}
+              {%- if part.title == paginate.current_page -%}
+                <li class="active" aria-current="page">
+                  <span class="visuallyhidden">page</span> {{ part.title }}
+                </li>
+              {%- else -%}
+                <li>
+                  <span class="visuallyhidden">page</span> {{ part.title }}
+                </li>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+  
+          {%- if paginate.next -%}
+            <li>
+              <a href="{{ paginate.next.url }}">
+                次へ <span class="visuallyhidden">page</span>
+                <span aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                      </svg>
+                </span>
+              </a>
+            </li>
+          {%- else -%}
+            <li class="disabled">
+              次へ <span class="visuallyhidden">page</span>
+              <span aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                    <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                  </svg>
+              </span>
+            </li>
+          {%- endif -%}
+        </ol>
+      </nav>
+</div>
+    
+  {%- endif -%}

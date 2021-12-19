@@ -1,0 +1,46 @@
+/* news-letter */
+
+.news-letter {
+    position: relative;
+    input {
+        margin: 0px;
+        padding: 5px;        
+        height: 40px;
+        width: 100%;
+        
+        border-radius: 5px;
+        border: 3px solid var(--color-text-light);
+        outline: none;
+        background: var(--color-palette-5);
+        
+        font-size: 1rem;
+        color: var(--color-text-dark);
+    }
+    button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 2;
+        height: 40px;
+    
+        width: 70px;
+    
+        margin:0px;
+    
+        border-radius: 5px;
+        border: 2px solid var(--color-text-light);
+        
+        background-color: var(--color-button-tertiary);
+        cursor: pointer;
+    
+        color: var(--color-text-light);
+        transform: translateX(2px);
+        
+        font-size: 1rem;
+        font-weight: 400;
+    }
+    ::placeholder {
+    color: var(--color-palette-2);
+    }
+}
+  

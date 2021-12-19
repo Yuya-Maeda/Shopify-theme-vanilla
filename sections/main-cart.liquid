@@ -1,0 +1,170 @@
+{%- comment -%}This is for sticky header {%- endcomment -%}
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+{% if cart.item_count > 0 %}
+
+    <section class="page-width">
+
+        <h1 class="section-header">ショッピングカート</h1>
+        <!-- for shopify you need to set action="/cart" method="post" novalidate attribute  -->
+
+        <form action="/cart" method="post" novalidate>
+          <div class="cart">
+
+                <div class="table-container">
+
+                        <table class="table">
+                            <thead>
+                                <th>Items</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </thead>
+                            <tbody>
+                                {% for item in cart.items %}
+                                    <tr>
+                                        <td>
+                                            <!-- Item-cell  -->
+                                            <div class="item-cell">
+                                                <div>
+                                                    <a href="{{ item.url | within: collections.all }}">
+                                                        <img src="{{ item | img_url: 'small' }}" alt="{{ item.title | escape }}">
+                                                    </a>
+
+                                                </div>
+
+                                                <div >
+                                                    <a href="{{ item.url }}">
+                                                        <h4>{{ item.product.title }}</h4>
+                                                    </a>
+                                                    <a href="{{ item.variant.url }}">
+                                                        <p>{{ item.variant.title }}</p>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <!-- Price  -->
+                                            <div class="price-cell">
+                                                {{ item.price | money }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <!-- Quantity input Cell  -->
+                                            <div class="quantity-cell">
+
+                                                <input class="" type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <!-- Total Cell -->
+                                            <div class="total-cell">
+                                                <div>
+                                                    {% if item.original_line_price != item.line_price %}
+                                                        {{ item.original_line_price | money }}
+                                                    {% endif %}
+                                                    {{ item.line_price | money }}
+                                                    {% for discount in item.discounts %}
+                                                        {{ discount.title }}
+                                                    {% endfor %}
+                                                </div>
+                                                <div>
+                                                    <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">
+
+                                                        {% render 'icon-remove' %}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                </div>
+                <!-- Checkout part  -->
+                <div class="checkout">
+                    <h2>合計金額</h2>
+
+                    <h3>{{ cart.total_price | money}}
+                    </h3>
+                    <!-- for shopify name="update" attribute is for update  -->
+                    <button class="btn btn-primary" name="update" type="submit">Update</button>
+                    <!-- for shopify name="checkout" atribute is for going to checkout -->
+                    <button class="btn btn-primary" name="checkout" type="submit">Checkout</button>
+
+                </div>
+
+            </div>
+        </form>
+
+    </section>
+{% else %}
+    <div class="cart-container page-width">
+        <div class="empty-cart-box">
+            <h1>Cart</h1>
+            <p>Cart is empty</p>
+            <p>ショッピングカートの中には何もありません。</p>
+            <button class="btn btn-tertiary">
+                <a href="/collections">買い物を続ける。</a>
+            </button>
+        </div>
+    </div>
+
+{% endif %}
+
+
+{%- comment -%}
+    <!-- Theme kit default cart -->
+          
+              {% if cart.item_count > 0 %}
+              <h1>cart</h1>
+              <form action="/cart" method="post" novalidate>
+                <table>
+                  <thead>
+                    <th colspan="2">Prod</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>total</th>
+                  </thead>
+                  <tbody>
+                    {% for item in cart.items %}
+                    <tr>
+                      <td>
+                        <a href="{{ item.url | within: collections.all }}">
+                          <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
+                        </a>
+                      </td>
+                      <td>
+                        <a href="{{ item.url }}">{{ item.product.title }}</a>
+                        {{ item.variant.title }}
+                        <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">remove</a>
+                      </td>
+                      <td>{{ item.price | money }}</td>
+                      <td>
+                        <input type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0">
+                      </td>
+                      <td>
+                        {% if item.original_line_price != item.line_price %}{{ item.original_line_price | money }}{% endif %}
+                        {{ item.line_price | money }}
+                        {% for discount in item.discounts %}{{ discount.title }}{% endfor %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <div>
+                  <p>sub total : {{ cart.total_price | money }}</p>
+                  <button type="submit" name="update">Update</button>
+                  <button type="submit" name="checkout">Checkout</button>
+                </div>
+              </form>
+              {% else %}
+              <h2>cart</h2>
+              Cart is empty
+              {% endif %}
+              
+              {%- endcomment -%
+          {%- endcomment -%
+      {%- endcomment -%
+{%- endcomment -%}

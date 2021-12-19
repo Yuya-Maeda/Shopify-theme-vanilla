@@ -1,0 +1,80 @@
+{%- comment -%}This is for sticky header {%- endcomment -%}
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+<section class="page-width">
+    {% paginate blog.articles by 3 %}
+        <div class="page-title">
+            <img alt="" src="https://source.unsplash.com/collection/2">
+            <h1>{{ blog.title }}</h1>
+        </div>
+        <div class="container-blog">
+            {% for article in blog.articles %}
+
+                <div class="blog-card">
+                    <div class="image-holder">
+                        <a href="{{ article.url }}">
+                            {% if article.image != blank %}
+
+                                <img src="{{ article.image | img_url: '2048x'}}" alt="{{ article.image.alt}}">
+                            {% else %}
+                                <img alt="" src="https://source.unsplash.com/collection/{{ forloop.index | time: 7 }}">
+                            {% endif %}
+                        </a>
+                        <div class="blog-title-box">
+                            <a href="{{ article.url }}">
+                                <h2>
+                                    {{ article.title }}
+                                </h2>
+                                <p>
+                                    {{ article.created_at | date: '%Y-%m-%d'}}
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="blog-excerpt">
+                        <div class="inner-box">
+                            {% if article.excerpt.size > 0 %}
+                                {{ article.excerpt }}
+                            {% else %}
+                                <p>{{ article.content | strip_html | truncate: 100 }}</p>
+                            {% endif %}
+                        </div>
+                        <a class="btn btn-primary" href="{{ article.url}}">続きを見る</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% render 'pagination' paginate: paginate %}
+    {% endpaginate %}
+</section>
+
+
+{%- comment -%}
+    Theme kit default 
+    
+    {% paginate blog.articles by 5 %}
+    
+    <h1>{{ blog.title }}</h1>
+    {% for article in blog.articles %}
+      <div>
+        <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+        {{ article.author }} @ {{ article.created_at }}
+        <div>
+          {% if article.excerpt.size > 0 %}
+            {{ article.excerpt }}
+          {% else %}
+            <p>{{ article.content | strip_html | truncatewords: 100 }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+    
+    {% if paginate.pages > 1 %}
+      {{ paginate | default_pagination }}
+    {% endif %}
+    
+    {% endpaginate %}
+    
+    
+    {%- endcomment -%} 

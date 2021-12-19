@@ -1,0 +1,57 @@
+{%- comment -%}
+time_ago < days default 30days : If the date of publication is within XX days. the badge shows "New!" 
+{%- endcomment -%}
+<style>
+    .badge-box {
+        position: absolute;
+        display: flex;
+        flex-direction: none;
+        justify-content: end;
+        top: 1rem;
+        right:1rem;
+    }
+    .badge {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+
+        width:5rem;
+        height: auto;
+        margin:0 0.5rem;
+        border: none;
+        border-radius: 5px;
+
+        line-height: 2rem;
+
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .badge.badge-sale {
+       
+        background-color: darkred;
+    }
+    .badge.badge-new {
+        
+        background-color: darkolivegreen;
+    }
+
+
+
+
+    
+</style>
+<div class="badge-box">
+    <!-- For sale or not  -->
+    {% if product.selected_or_first_available_variant.compare_at_price and product.selected_or_first_available_variant.compare_at_price != product.selected_or_first_available_variant.price  %}
+        <div class="badge badge-sale">SALE!</div>
+    {% endif %}
+    <!-- Variable for new item -->
+    {% assign product_created_at = product.created_at | date: '%s' %}
+    {% assign time_ago = 'now' | date: '%s' | minus: product_created_at | divided_by: 86400 %}
+    {% if time_ago < 30 %}
+        <div class="badge badge-new">New!</div>
+    {% endif %}
+</div>
+
+

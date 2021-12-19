@@ -1,0 +1,7 @@
+.featured-collection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px,max-content));
+    justify-content: center;
+    align-items: center;
+    
+}

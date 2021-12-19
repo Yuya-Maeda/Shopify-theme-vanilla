@@ -1,0 +1,6 @@
+{%- comment -%}Generate a random number from 1 to 1000{%- endcomment -%}
+{%- assign min = 1 -%}
+{%- assign max = 1000 -%}
+{%- assign diff = max | minus: min -%}
+{%- assign random_number = "now" | date: "%N" | modulo: diff | plus: min -%}
+{{ random_number }}

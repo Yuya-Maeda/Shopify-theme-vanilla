@@ -1,0 +1,162 @@
+<style>	
+	.expanding-card-container {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	
+	.expanding-card-box {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		overflow: hidden;
+	}
+	.expanding-card-box h3 {
+		color: var(--color-text-light)
+	}
+
+	.panel {
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+
+		height: {{ section.settings.card_height }}vh;
+		border-radius: 50px;
+		color: aliceblue;
+		cursor: pointer;
+		flex: 0.35;
+		margin: 10px;
+
+		position: relative;
+		transition: flex 0.4s ease-in;
+	}
+
+	.panel .text-block {
+		background-color:rgba(var(--color-palette-2-rgb), 0.5);
+		border-radius: 20px;
+		position: absolute;
+		
+
+		margin: 0;
+		padding: 15px;
+		right: 20px;
+		bottom: 20px;
+		left: 20px;
+		
+		color: var(--color-text-light);
+		opacity: 0;
+	}
+	.panel .text-block p {
+		margin-top: 5px;
+	}
+	
+	.panel.active {
+		flex: 8;
+	}
+	.panel.active .text-block {
+		opacity: 1;
+		transition: opacity 0.3s ease-in 0.3s;
+	}
+
+	@media (max-width: 480px) {
+		.container-day {
+			width: 100vw;
+		}
+		.panel:nth-of-type(4),
+		.panel:nth-of-type(5),
+		.panel:nth-of-type(6) {
+			display: none;
+		}
+	}
+</style>
+<div class="expanding-card-container page-width">
+	<h1 class="section-header">Tell Your Story</h1>
+	<div class="expanding-card-box ">
+		{% for block in section.blocks %}
+		<div class="panel {% if forloop.first %}active {% endif %}" style="
+		{% if block.settings.image != blank %}
+		background-image: url('{{ block.settings.image | img_url: '2048x' }}')
+		{% else %}
+		background-image: url('{%- render 'unsplash-source-url' -%}')
+		{% endif %}
+		">
+	
+			<div class="text-block">
+				<h3>{{ block.settings.title }}</h3>
+				<p>{{ block.settings.textarea }}</p>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+<script>
+	const panels = document.querySelectorAll(".panel");
+
+	panels.forEach((panel) => {
+		panel.addEventListener("click", () => {
+			removeActiveClasses();
+			panel.classList.add("active");
+		});
+	});
+
+	function removeActiveClasses() {
+		panels.forEach((panel) => {
+			panel.classList.remove("active");
+		});
+	}
+</script>
+
+{% schema %}
+{
+	"name": "Expanding Cards",
+	"max_blocks": 6,
+	"settings": [
+		{
+			"type": "header",
+			"content": "Expanding Cards Viewport height"
+		},
+		{
+			"type": "range",
+			"id": "card_height",
+			"label": "Cardの高さ",
+			"unit": "vh",
+			"min": 30,
+			"max": 80,
+			"step": 10,
+			"default": 70
+		}
+	],
+	"blocks":[
+		{
+		"type": "cards",
+		"name": "Cards",
+		"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Pick Card Image"
+				},
+				{
+					"type": "text",
+					"id": "title",
+					"label": "title",
+					"default": "Expanding Card Title"
+				},
+				{
+					"type": "textarea",
+					"id": "textarea",
+					"label": "Description",
+					"default": "Write down your messege for the visitors. This Expanding Card Section is working only vanilla CSS and JavaScript! The expanding card section can hold blocks up to 6. On mobile view, less cards are displayed.<br>As default,it get random image from unsplash!"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"category": "Image and Text",
+			"name":"Expanding Cards"
+		}
+	]
+    
+}
+{% endschema %}

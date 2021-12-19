@@ -1,0 +1,84 @@
+{% style %}
+
+
+
+{% endstyle %}
+<section class="vertical-section">
+    <div class="vertical-flex-container">
+
+        <div>
+            <h2>玉露の歴史を元祖の旨みを</h2>
+            <p>情に棹させば流される。智に働けば角が立つ。どこへ越しても住みにくいと悟った時、詩が生れて、画が出来る。とかくに人の世は住みにくい。意地を通せば窮屈だ。とかくに人の世は住みにくい。どこへ越しても住みにくいと悟った時、詩が生れて、画が出来る。意地を通せば窮屈だ。山路を登りながら、こう考えた。智に働けば角が立つ。どこへ越しても住みにくいと悟った時、詩が生れて、画</p>
+            <a href="#" class="btn btn-primary">ボタン</a>
+        </div>
+        <div>
+            <h2></h2>
+            <p>2017年情に棹させば流される。智に働けば角が立つ。どこへ越しても住みにくいと悟った時、詩が生れて、画が出来る。とかくに人の世は住みにくい。意地を通せば窮屈だ。とかくに智に働けば角が立つ。どこへ越しても住みにくいと悟った時、詩が生れて、画が出来る。智に働けば角が立つ。とかくに人の世は住みにくい。山路を登りながら、こう考えた。とかくに人の世は住みにくい。住みにくさが高じると、安い所へ引</p>
+        </div>
+        <div class="img-container">
+            <img src="https://picsum.photos/400/400" alt="">
+        </div>
+    </div>
+    <!-- <img src="{{ section.settings.bg_image | img_url: "master", format: 'pjpg'}}" class="bg-image" alt=""> -->
+</section>
+
+
+{% schema %}
+{
+    "name": "縦書きのセクション",
+    "max_blocks": 3,
+    "settings": [
+        {
+            "type": "header",
+            "content": "縦書きのセクション設定"
+        },
+        {
+            "type": "range",
+            "id": "section_height",
+            "label": "セクションの高さ",
+            "unit": "vh",
+            "min": 30,
+            "max": 100,
+            "step": 5,
+            "default": 50
+        },
+        {
+            "type": "image_picker",
+            "id": "bg_image",
+            "label": "背景画像"
+        }
+    ],
+    "blocks":[
+        {
+            "type": "cards",
+            "name": "カード",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "タイトル",
+                    "default": "タイトル"
+                },
+                {
+                    "type": "textarea",
+                    "id": "textarea",
+                    "label": "文章内容",
+                    "default": " 情に棹させば流される。智に働けば角が立つ。どこへ越しても住みにくいと悟った時、詩が生れて、画が出来る。とかくに人の世は住みにくい。意地を通せば窮屈だ。とかくに人の世は住みにくい。どこへ越しても住みにくいと悟った時、詩が生れて、画が出来る。意地を通せば窮屈だ。山路を登りながら、こう考えた。智に働けば角が立つ。どこへ越しても住みにくいと悟った時、詩が生れて、画が出来る。智に働けば角が立つ。とかくに人の世は住みにくい。山路を登りながら、こう考えた。とかくに人の世は住みにくい。住みにくさが高じると、安い所へ引"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "background_img",
+                    "label": "背景画像"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "category": "Image and Text",
+            "name": "縦書きセクション"
+
+        }
+    ]
+}
+{% endschema %}

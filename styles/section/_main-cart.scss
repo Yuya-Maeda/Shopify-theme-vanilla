@@ -1,0 +1,151 @@
+.cart {
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	margin: 30px;
+	padding: 15px 0px;
+	border-radius: 5px;
+	background-color: var(--color-palette-1);
+	color: var(--color-text-light);
+
+	h2,
+	h3,
+	h4 {
+		text-align: center;
+		color: var(--color-text-light);
+	}
+	p {
+		color: var(--color-text-light);
+	}
+	a {
+		text-decoration: none;
+		color: var(--color-text-light);
+	}
+
+	.table-container {
+		width: 70%;
+		background-color: var(--color-palette-2);
+		padding: 10px;
+		border-radius: 5px;
+        overflow: hidden;
+        margin-top: 5px;
+	}
+
+	.checkout {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		height: 250px;
+		width: 25%;
+		padding: 10px 20px;
+		border-radius: 5px;
+		background: var(--color-palette-2);
+		h3,
+		h4 {
+			text-align: center;
+		}
+	}
+
+	@media screen and (max-width: 749px) {
+		flex-direction: column;
+		justify-content: start;
+		align-items: center;
+		margin: 5px;
+		padding: 0;
+
+		.table-container {
+			width: 95%;
+			max-width: 95vw;
+		}
+        
+		.checkout {
+			width: 300px;
+			margin-top: 5px;
+			border: 5px solid var(--color-palette-1);
+			border-radius: 0px;
+		}
+	
+	}
+}
+
+.table {
+	width: 100%;
+
+	// tr,
+	// th,
+	// td {
+	// 	border: 1px solid white;
+	// }
+
+	th {
+
+        font-size: clamp(0.4rem, 0.5rem + 2vw, 1rem);
+		border-bottom: 2px solid var(--color-text-light);
+	}
+    td {
+        font-size: clamp(0.4rem, 0.5rem + 2vw, 1rem);
+
+    }
+	.item-cell {
+        width: 100%;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, min-content));
+		justify-content: center;
+		place-items: center;
+        div {
+            padding:5px;
+        }
+		img {
+            width: 100%;
+			border-radius: 5px;
+		}
+        p {
+            font-size: clamp(0.5rem, 0.5rem + 1vw, 1rem);
+        }
+
+	}
+	.price-cell,
+	.quantity-cell {
+		display: flex;
+		justify-content: center;
+	}
+	.quantity-cell input {
+		height: 30px;
+	}
+	.total-cell {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(100px, min-content));
+		place-items: center;
+        justify-content: center;
+        align-items: center;
+        
+	}
+	a svg {
+		height: 20px;
+		font-size: 0.9rem;
+		color: var(--color-text-light);
+	}
+}
+
+.empty-cart-box {
+	background-color: var(--color-palette-1);
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	line-height: 40px;
+	margin: 100px 20px;
+	padding: 20px;
+    h1 {
+        
+        color: var(--color-text-light);
+    }
+    a {
+        color: var(--color-text-light);
+        text-decoration: none;
+
+    }
+}
+

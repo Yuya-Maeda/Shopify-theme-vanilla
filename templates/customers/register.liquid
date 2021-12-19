@@ -1,0 +1,72 @@
+<style>
+    .register-container {
+        display: flex;
+        justify-content: center;
+
+    }
+    
+</style>
+ {%- comment -%}This is for sticky header {%- endcomment -%}
+ <div style="height:70px; background-color: var(--color-palette-1);"></div>
+<section class="register-container">
+   
+    <div class="theme-form">
+        <h1>お客様サインアップ</h1>
+        {% form 'create_customer' %}
+    
+            {{ form.errors | default_errors }}
+    
+            <div class="form-control">
+                <label for="first_name">First Name</label>
+                <input name="customer[first_name]" size="30" type="text" value=""/>
+            </div>
+    
+            <div class="form-control">
+                <label for="last_name">Last Name</label>
+                <input name="customer[last_name]" size="30" type="text" value=""/>
+            </div>
+    
+            <div class="form-control">
+                <label for="email">Email Address</label>
+                <input name="customer[email]" size="30" type="email" value=""/>
+            </div>
+    
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input name="customer[password]" size="30" type="password" value=""/>
+            </div>
+
+            <input class="btn btn-primary" type="submit" value="登録"/>
+    
+        {% endform %}
+    </div>
+
+
+</section>
+
+{%- comment -%}
+    Theme kit default 
+    <!-- /templates/customers/register.liquid -->
+    
+    {% form 'create_customer' %}
+    
+    {{ form.errors | default_errors }}
+    
+    <label for="first_name">First Name</label>
+    <input type="text" value="" name="customer[first_name]" size="30" />
+    
+    <label for="last_name">Last Name</label>
+    <input type="text" value="" name="customer[last_name]" size="30" />
+    
+    <label for="email">Email Address</label>
+    <input type="email" value="" name="customer[email]" size="30" />
+    
+    <label for="password">Password</label>
+    <input type="password" value="" name="customer[password]" size="30" />
+    
+    <input type="submit" value="Create" />
+    
+    {% endform %}
+    
+    {%- endcomment -%
+{%- endcomment -%}

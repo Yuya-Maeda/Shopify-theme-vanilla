@@ -1,0 +1,220 @@
+<style>
+.account-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr ;
+  grid-template-rows: 15vh auto;
+  grid-template-areas: "header header"
+                       "address order";
+  grid-gap:10px;
+}
+@media screen and (max-width:749px) {
+  
+  .account-container {
+    display: grid;
+    grid-template-columns: 1fr  ;
+    grid-template-rows: 15vh auto auto;
+    grid-template-areas: "header"
+                         "order"
+                         "address";
+  }
+
+}
+.header-box {
+  grid-area: header;
+  place-self: center;
+}
+
+.address-box {
+  grid-area: address;
+}
+.address-box h3 {
+  text-align: start;
+  margin: 10px 0 10px 0;
+}
+
+/* order  */
+.order-box {
+  grid-area: order;
+}
+.order-inner-box {
+  background-color: var(--color-palette-2);
+  border-radius: 5px;
+  padding: 5px;
+  color: var(--color-text-light);
+}
+.order-inner-box h3 {
+  color: var(--color-text-light);
+}
+/* .order-table{
+  width:100%
+}
+.order-table td .btn:hover {
+transform: scale(1.05);
+background-color: var(--color-palette-1);
+}
+.order-table th,
+.order-table td {
+  text-align: center;
+  height: 50px;
+}
+.order-table th {
+  border-bottom: 2px solid var(--color-text-light);
+}
+.order-table a {
+  text-decoration: none;
+} */
+.order-box .note {
+text-align: end;
+margin: 5px;
+}
+/* mobile */
+@media screen and (max-width:749px) {
+  .order-table {
+    font-size: 0.8rem;
+
+  }
+  .order-table a {
+    font-size: 0.9rem;
+    border: 1px solid var(--color-text-light);
+  }
+  .order-box .note {
+  text-align: end;
+  margin: 5px;
+  font-size: 0.7rem;
+  }
+
+}
+
+</style>
+{%- comment -%}This is for sticky header {%- endcomment -%}
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+<div class="account-container page-width">
+
+  <div class="header-box">
+    <h1>お客様情報</h1>
+  </div>
+  
+  {%- comment -%} Customer information column {%- endcomment -%}
+  <div class="address-box theme-box">
+    <h2>アカウント情報</h2>
+      <div>
+        <h3>お名前</h3>
+        <p>{{ customer.first_name }} {{ customer.last_name }} </p>
+      </div>
+      <div>
+        <h3>E-mail</h3>
+        <p>{{ customer.email }}</p>
+      </div>
+      <div>
+        <h3>住所</h3>
+        
+        <p>{{ customer.default_address. | format_address }}</p>
+        {%- comment -%}
+        <p>{{ customer_address.zip | format_address }}</p>
+        <p>{{ customer_address.province | format_address }}</p>
+        <p>{{ customer_address.city }}</p>
+        <p>{{ customer_address.address1 }}</p>
+        <p>{{ customer_address.address2 }}</p> 
+        <p>{{ shipping_address.address1 }}</p>
+        {%- endcomment -%}
+      </div>
+        <a class="btn btn-tertiary" href="{{ routes.account_addresses_url }}" class="btn btn-light">
+           お客様情報 [{{ customer.addresses_count }}]
+        </a>
+  </div>
+
+  {%- comment -%} Customer's Order Infromation grid{%- endcomment -%} 
+  <div class="order-box theme-box">
+    <h2>ご注文状況</h2>
+    <div class="order-inner-box">
+      {% if customer.orders.size > 0 %}
+      <table class="theme-table">
+        <thead>
+          <tr>
+            <th>オーダー＃</th>
+            <th>発送状況</th>
+            <th>支払状況</th>
+            <th>注文日</th>
+            <th>金額</th>
+          </tr>
+          <tbody>
+              {% for order in customer.orders %}
+                  <tr>
+                    <td><a href="{{ order.customer_url }}">{{ order.name }}</a> </td>
+                    <td>{{ order.fulfillment_status_label }}</td>
+                    <td>{{ order.financial_status_label }}</td>
+                    <td>{{ order.created_at | date: '%Y-%m-%d'}}</td>
+                    <td>{{ order.total_price | money }}</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+        </thead>
+      </table>
+      
+      {% else %}
+        <h3>ご注文プロセス中のものはございません。</h3>
+    {% endif %}
+    </div>
+    <p class="note">*オーダーごとの詳細はオーダー番号をクリックしてください。</p>
+
+  </div>
+
+
+</div>
+
+<div class="container">
+ 
+  <div class="row">
+
+      
+   
+   
+  </div>
+</div>
+
+{%- comment -%}
+Liquid Memo
+--Customer--
+An object that contains infromation about the customer that is currently logged in. You can use this object in any template or snippet file but the customer object is only going to work if the customer is logged in.
+So, if you use customer object out of account.liquid, you have to use the following statement as an example.
+
+{% if customer %}
+  {{customer.default_address}} 
+{% endif %}
+
+{%- endcomment -%}
+
+
+{%- comment -%}
+Shopify Default  account Templates
+<!-- /templates/customers/account.liquid -->
+
+{% if customer.default_address %}
+<h2>Address</h2>
+<p>{{ customer.default_address.address1 }}</p>
+{% if customer.default_address.address2 != "" %}
+<p>{{ customer.default_address.address2 }}</p>
+{% endif %}
+<p>{{ customer.default_address.city}}, {% if address.province_code %}{{ customer.default_address.province_code }}, {% endif %}{{ customer.default_address.country }}</p>
+<p>{{ customer.default_address.zip }}</p>
+<p>{{ customer.default_address.phone }}</p>
+{% endif %}
+
+<div id="customer_orders">
+  <h2>Orders</h2>
+  {% paginate customer.orders by 10 %}
+  {% if customer.orders.size != 0 %}
+  {% for order in customer.orders %}
+  <!-- order details here -->
+  {% endfor %}
+  {% else %}
+  <p>You haven't placed any orders yet.</p>
+  {% endif %}
+  {{ paginate | default_pagination }}
+  {% endpaginate %}
+</div>
+
+{%- endcomment -%}
+
+

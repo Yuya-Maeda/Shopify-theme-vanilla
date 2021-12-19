@@ -1,0 +1,244 @@
+<style>
+.addresses-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 20vh auto 20px;
+    grid-template-areas: "header header"
+                         "address new "
+                         "footer footer";
+    grid-gap: 5px;
+}
+/* Mobile  */
+@media screen and (max-width:749px) {
+    .addresses-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 20vh auto auto auto;
+        grid-template-areas: "header"
+                             "address"
+                             "new"
+                             "footer";
+    }
+}
+/* header for title  */
+.header-box {
+    grid-area:header;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.header-box h1 {
+    text-align: center;
+}
+/* registered address  */
+.address-box {
+    grid-area: address;
+    background-color: var(--color-palette-1);
+    border-radius: 5px;
+    margin: 5px;
+    width:100%;
+    padding:10px;
+
+}
+.address-box h2 {
+    text-align: center;
+    color: var(--color-text-light);
+}
+.address-inner-box {
+    display: flex;
+    flex-wrap: wrap;   
+}
+.address-card {
+    background-color: var(--color-palette-2);
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    color: var(--color-text-light);
+    
+}
+
+ /* new-address  */
+.new-address-box{
+    grid-area:new;
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--color-palette-1);
+    border-radius: 5px;
+    margin: 10px;
+    padding:10px;
+    color:var(--color-text-light);
+}
+.new-address-box h2 {
+    color:inherit
+}
+.form-control {
+}
+.form-control-line {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 5px;
+}
+/* footer for margin  */
+.address-footer {
+    grid-area:footer;
+}
+
+</style>
+{%- comment -%}This is for sticky header {%- endcomment -%}
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+ <!-- Address infromation  -->
+
+<div class="addresses-container page-width">
+    <div class="header-box"><h1>住所情報</h1></div>
+    
+    <div class="address-box">
+        <h2>ご登録済みの住所情報</h2>
+        <div class="address-inner-box">
+            <!-- address-card -->
+            <div class="address-card">
+                {% for address in customer.addresses %}
+                    {{ address | format_address }}
+                    {%- comment -%}Form for delete address {%- endcomment -%}
+                    <form   action="/account/addresses/{{ address.id }}"
+                            method="POST"
+                            data-confirm-message="アドレス削除">
+                            <input type="hidden" name="_method" value="delete">
+                            <button class="btn btn-secondary">削除</button>
+                    </form>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="new-address-box">
+        {% form 'customer_address', customer.new_address %}
+            <h2>新しい住所を登録する。</h2>
+        
+                <div class="form-control-line">
+                    <label for="NewAddressLastNameNew" >姓</label>
+                    <input id="NewAddressLastNameNew" type="text" name="address[last_name]" value="{{ form.last_name }}" >
+                    <label for="NewAddressFirstNameNew">名</label>
+                    <input id="NewAddressFirstNameNew" type="text" name="address[first_name]" value="{{ form.first_name }}" >
+                </div>
+        
+                <div class="form-control-line">
+                    <label for="NewAddressCompanyNew">会社名</label>
+                    <input id="NewAddressCompanyNew" type="text" name="address[company]" value="{{ form.company }}">
+                </div>
+            
+                <div class="form-control-line">
+                    <label for="NewAddressCountryNew">国</label>
+                    <select id="NewAddressCountryNew" name="address[country]">
+                        <option selected value="Japan" data-provinces="[[&quot;Aichi&quot;,&quot;愛知県&quot;],[&quot;Akita&quot;,&quot;秋田県&quot;],[&quot;Aomori&quot;,&quot;青森県&quot;],[&quot;Chiba&quot;,&quot;千葉県&quot;],[&quot;Ehime&quot;,&quot;愛媛県&quot;],[&quot;Fukui&quot;,&quot;福井県&quot;],[&quot;Fukuoka&quot;,&quot;福岡県&quot;],[&quot;Fukushima&quot;,&quot;福島県&quot;],[&quot;Gifu&quot;,&quot;岐阜県&quot;],[&quot;Gunma&quot;,&quot;群馬県&quot;],[&quot;Hiroshima&quot;,&quot;広島県&quot;],[&quot;Hokkaidō&quot;,&quot;北海道&quot;],[&quot;Hyōgo&quot;,&quot;兵庫県&quot;],[&quot;Ibaraki&quot;,&quot;茨城県&quot;],[&quot;Ishikawa&quot;,&quot;石川県&quot;],[&quot;Iwate&quot;,&quot;岩手県&quot;],[&quot;Kagawa&quot;,&quot;香川県&quot;],[&quot;Kagoshima&quot;,&quot;鹿児島県&quot;],[&quot;Kanagawa&quot;,&quot;神奈川県&quot;],[&quot;Kumamoto&quot;,&quot;熊本県&quot;],[&quot;Kyōto&quot;,&quot;京都府&quot;],[&quot;Kōchi&quot;,&quot;高知県&quot;],[&quot;Mie&quot;,&quot;三重県&quot;],[&quot;Miyagi&quot;,&quot;宮城県&quot;],[&quot;Miyazaki&quot;,&quot;宮崎県&quot;],[&quot;Nagano&quot;,&quot;長野県&quot;],[&quot;Nagasaki&quot;,&quot;長崎県&quot;],[&quot;Nara&quot;,&quot;奈良県&quot;],[&quot;Niigata&quot;,&quot;新潟県&quot;],[&quot;Okayama&quot;,&quot;岡山県&quot;],[&quot;Okinawa&quot;,&quot;沖縄県&quot;],[&quot;Saga&quot;,&quot;佐賀県&quot;],[&quot;Saitama&quot;,&quot;埼玉県&quot;],[&quot;Shiga&quot;,&quot;滋賀県&quot;],[&quot;Shimane&quot;,&quot;島根県&quot;],[&quot;Shizuoka&quot;,&quot;静岡県&quot;],[&quot;Tochigi&quot;,&quot;栃木県&quot;],[&quot;Tokushima&quot;,&quot;徳島県&quot;],[&quot;Tottori&quot;,&quot;鳥取県&quot;],[&quot;Toyama&quot;,&quot;富山県&quot;],[&quot;Tōkyō&quot;,&quot;東京都&quot;],[&quot;Wakayama&quot;,&quot;和歌山県&quot;],[&quot;Yamagata&quot;,&quot;山形県&quot;],[&quot;Yamaguchi&quot;,&quot;山口県&quot;],[&quot;Yamanashi&quot;,&quot;山梨県&quot;],[&quot;Ōita&quot;,&quot;大分県&quot;],[&quot;Ōsaka&quot;,&quot;大阪府&quot;]]">日本   
+                        </option>
+                        {{ all_country_option_tags }}
+                    </select>
+                </div>
+        
+                <div class="form-control-line">
+                    <label for="NewAddressZipNew">郵便番号</label>
+                    <input id="NewAddressZipNew" type="text" name="address[zip]" value="{{ form.province }}">
+                </div>
+                <div class="form-control-line">
+                        <label for="NewAddressProvinceNew">都道府県</label>
+                        <select id="NewAddressProvinceNew" name="address[province]"   disabled="disabled"> </select>
+                </div>
+
+                <div class="form-control-line">
+                    <label for="NewAddressCityNew">市町村</label>
+                    <input id="NewAddressCityNew" type="text" name="address[city]" value="{{ form.city }}">
+                </div>
+
+                <div class="form-control-line">
+                    <label for="NewAddressAddress1New">住所</label>
+                    <input id="NewAddressAddress1New" type="text" name="address[address1]" value="{{ form.address1 }}">
+                </div>
+        
+                <div class="form-control-line">
+            
+                    <label for="NewAddressAddress2New">建物 部屋番号</label>
+                    <input id="NewAddressAddress2New" type="text" name="address[address2]" value="{{ form.address2 }}">
+                </div>
+        
+        
+                <div class="form-control-line">
+                    <label for="NewAddressPhoneNew" >電話番号</label>
+                    <input id="NewAddressPhoneNew" type="text" name="address[phone]" value="{{ form.phone }}">
+                </div>
+                <button type="submit" class="btn btn-primary">保存</button>
+        {% endform %}
+    </div>
+</div>
+
+<script>
+    // this is for address : when you select country you automatically get list of city
+
+if( document.getElementById('NewAddressCountryNew') != null ) {
+    document.getElementById('NewAddressCountryNew').addEventListener('change', function(e){
+        var provinces = this.options[this.selectedIndex].getAttribute('data-provinces');
+        var provincesSelector = document.getElementById('NewAddressProvinceNew');
+        var provinceArray = JSON.parse(provinces);
+        // console.log(provinceArray);
+        if(provinceArray.length < 1) {
+            provincesSelector.setAttribute('disabled','disabled');
+        } else {
+            provincesSelector.removeAttribute('disabled')
+        }
+
+        provincesSelector.innerHTML = '';
+        var options = '';
+        for(var i = 0; i < provinceArray.length; i++ ) {
+            options += '<option value="' + provinceArray[i][0] +  '">' + provinceArray[i][0] + ' </option>'
+        }
+
+        provincesSelector.innerHTML = options;
+    }
+    )
+};
+</script>
+
+{%- comment -%}
+<!-- /templates/customers/addresses.liquid -->
+Theme kit default template
+<h2>New Address</h2>
+{% form 'customer_address', customer.new_address %}
+
+{{ form.errors | default_errors }}
+
+<label for="first_name">First Name</label>
+<input type="text" value="" name="address[first_name]" size="30" />
+
+<label for="last_name">Last Name</label>
+<input type="text" value="" name="address[last_name]" size="30" />
+
+<label for="company">Company</label>
+<input type="text" value="" name="address[company]" />
+
+<label for="address1">Address 1</label>
+<input type="text" value="" name="address[address1]" />
+
+<label for="address2">Address 2</label>
+<input type="text" value="" name="address[address2]" />
+
+<label for="city">City</label>
+<input type="text" value="" name="address[city]" />
+
+<!-- See docs for @shopify/theme-addresses to support Country and Province -->
+<label for="country">Country</label>
+<select name="address[country]" /></select>
+
+<label for="province">Province</label>
+<select name="address[province]" /></select>
+
+<label for="zip">Zip/Post Code</label>
+<input type="text" value="" name="address[zip]" />
+
+<label for="phone">Phone Number</label>
+<input type="tel" value="" name="address[phone]" />
+
+{% endform %}
+
+{%- endcomment -%}
+
+

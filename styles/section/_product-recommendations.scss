@@ -1,0 +1,16 @@
+/* product-recommendations */
+
+.recommendations-wrapper {
+	margin: 20px auto;
+
+	h2 {
+
+		text-align: center;
+		margin: 10px 0;
+	}
+}
+.product-recommendations-box {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}

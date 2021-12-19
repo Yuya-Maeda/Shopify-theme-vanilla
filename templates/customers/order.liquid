@@ -1,0 +1,155 @@
+<style>
+.order-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 20vh auto 20px;
+  grid-template-areas: "header header"
+                       "address order"
+                       "footer footer";
+}
+@media screen and (max-width:749px) {
+  .order-container {
+    display:grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 20vh auto auto auto ;
+    grid-template-areas: "header"
+                         "address"
+                         "order"
+                         "footer";
+  }
+}
+.header-box {
+  grid-area:header;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.address-box {
+  grid-area: address;
+}
+.order-box {
+  grid-area: order;
+}
+.footer-box {
+
+}
+</style>
+{%- comment -%}This is for sticky header {%- endcomment -%}
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+<div class="order-container page-width">
+  <div class="header-box">
+    <h1>オーダー情報{{ order.name }}</h1>
+  </div>
+
+  <div class="address-box theme-box bg-1">
+    <div class="billing-address">
+      <h2>請求先住所</h2>
+      <p><span>支払状況</span> <span class="status_{{ order.financial_status }}">{{ order.financial_status }}</span></p>
+      <p>{{ order.billing_address.name }}</p>
+      <p>{{ order.billing_address.company }}</p>
+      <p>{{ order.billing_address.street }}</p>
+      <p>{{ order.billing_address.city }}, {{ order.billing_address.province }}</p>
+      <p>{{ order.billing_address.country }} {{ order.billing_address.zip }}</p>
+      <p>{{ order.billing_address.phone }}</p>
+
+    </div>
+    <div class="shipping-address">
+      <h2>配送先住所</h2>
+      <p><span>配達状況</span> <span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status }}</span></p>
+      <p>{{ order.shipping_address.name }}</p>
+      <p>{{ order.shipping_address.company }}</p>
+      <p>{{ order.shipping_address.street }}</p>
+      <p>{{ order.shipping_address.city }}, {{ order.shipping_address.province }}</p>
+      <p>{{ order.shipping_address.country }} {{ order.shipping_address.zip }}</p>
+      <p>{{ order.shipping_address.phone }}</p>
+
+    </div>
+  </div>
+
+  <div class="order-box theme-box bg-1">
+    <h2>ご注文内容</h2>
+    <table class="theme-table">
+      <thead>
+        <th>商品</th>
+        <th>SKU</th>
+        <th>価格</th>
+        <th>数量</th>
+        <th>計</th>
+      </thead>
+      <tbody>
+        <tr>
+          {% for line_item in order.line_items %}
+          <td>
+            
+              <div class="item-and-title">
+                <div class="thumbnail">
+                  <a href="{{ line_item.url | within: collections.all }}">
+                      <img src="{{ line_item | img_url: 'small' }}" alt="{{ item.title | escape }}">
+                  </a>
+                </div>
+                <div class="title">
+                   <div>{{ line_item.title | link_to: line_item.product.url }}</div>
+                </div>
+              </div>
+          </td>
+          <td>{{ line_item.sku }}</td>
+          <td>{{ line_item.original_price | money }}</td>
+          <td>{{ line_item.quantity }}</td>
+          <td>{{ line_item.line_price | money }}</td>
+        </tr>
+      </tbody>
+      {% endfor %}
+      <tfoot>
+        <td colspan="4">計</td>
+        <td>{{ order.line_items_subtotal_price | money }}</td>
+      </tfoot>
+    </table>
+    
+
+  </div>
+  <div class="footer-box">
+
+  </div>
+
+</div>
+
+
+{%- comment -%}
+Theme kit default 
+
+
+<!-- /templates/customers/order.liquid -->
+
+<h2>Billing Address</h2>
+<p><span>Payment Status:</span> <span class="status_{{ order.financial_status }}">{{ order.financial_status }}</span></p>
+<p>{{ order.billing_address.name }}</p>
+<p>{{ order.billing_address.company }}</p>
+<p>{{ order.billing_address.street }}</p>
+<p>{{ order.billing_address.city }}, {{ order.billing_address.province }}</p>
+<p>{{ order.billing_address.country }} {{ order.billing_address.zip }}</p>
+<p>{{ order.billing_address.phone }}</p>
+
+<h2>Shipping Address</h2>
+<p><span>Fulfillment Status:</span><span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status }}</span></p>
+<p>{{ order.shipping_address.name }}</p>
+<p>{{ order.shipping_address.company }}</p>
+<p>{{ order.shipping_address.street }}</p>
+<p>{{ order.shipping_address.city }}, {{ order.shipping_address.province }}</p>
+<p>{{ order.shipping_address.country }} {{ order.shipping_address.zip }}</p>
+<p>{{ order.shipping_address.phone }}</p>
+
+<h2>Order Items</h2>
+<table>
+  {% for line_item in order.line_items %}
+  <tr>
+    <td>{{ line_item.title | link_to: line_item.product.url }}</td>
+    <td>{{ line_item.sku }}</td>
+    <td>{{ line_item.original_price | money }}</td>
+    <td>{{ line_item.quantity }}</td>
+    <td>{{ line_item.line_price | money }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{%- endcomment -%}

@@ -1,0 +1,61 @@
+{%- assign featured_image = product.featured_image -%}
+
+<div class="card-wrapper">
+
+    <div class="card">
+        <a href="{{ product.url }}"><img src="{{ featured_image | img_url: '1024x'}}" alt="{{ featured_image.alt | escape }}"></a>
+        <div class="product-info">
+
+            <div>
+                <a href="{{ product.url }}">
+                    <h3>{{ product.title }}</h3>
+                </a>
+            </div>
+            <div>
+                <a href="{{ product.url}}">
+                    <p>{{ product.description | truncate: 100 }}</p>
+                </a>
+            </div>
+
+            <div class="add-cart">
+                <div>
+                    <dl>
+                        <dt>
+                            <span style="display: none;">Regular price</span>
+                        </dt>
+                        <dd>{{ product.price | money }}</dd>
+
+                        {%- if product.vendor -%}
+                            <dt>
+                                <span style="display: none ;">Vendor</span>
+                            </dt>
+                            <dd>{{ product.vendor }}</dd>
+                        {%- endif -%}
+
+                    </dl>
+                </div>
+                <div>
+                    {% form 'product', product %}
+                        <!-- <select name="id" style="display: none;">
+                      {%- for variant in product.variants -%}
+                        <option selected="selected" value="{{ variant.id }}"></option>
+                      {%- endfor -%}
+                    </select> -->
+                        <input type="hidden" name="id" value="{{ product.variants.first.id }}"/>
+
+                        <button class="btn btn-primary" type="submit" {% unless product.available %} disabled="disabled" {% endunless %}>
+                            {%- if product.available -%}
+                                add{% render 'bi-icon-add-cart' %}
+                            {%- else -%}
+                                売り切れ
+                            {%- endif -%}
+                        </button>
+                    {% endform %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% render 'sale-new-badge' product: product %}
+</div>
+

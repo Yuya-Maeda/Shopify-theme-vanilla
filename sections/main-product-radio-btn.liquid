@@ -1,0 +1,206 @@
+{%- comment -%}this is for sticky header{%- endcomment -%}
+<div style="height:70px; background-color: var(--color-palette-1);"></div>
+
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image -%}
+
+<section class="page-width">
+    <div class="product">
+        <div class="image-box">
+        
+                    <!-- Current Variant image  -->
+            <div class="featured-image">
+                <img src="{{ featured_image | img_url: '2048x'}}" alt="{{ featured_image.alt }}">
+                {% render 'sale-new-badge' product:product %}
+            </div>
+            <!-- all variant image  -->
+            <div class="thumnail-box">
+                {% for variant in product.variants %}
+                    <div class="thumnail-card">
+                        <a href="{{ variant.url }}">
+                            {% if variant.featured_image != blank  %}
+                            <img src="{{ variant.featured_image | img_url: '2048x'}}" alt="">
+                            {% else %}
+                            <img src="{{ product.featured_image | img_url: '2048x'}}" alt="">
+                            {% endif %}
+                            <h5>{{ variant.title }}</h5>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- metafields-image  -->
+            {% if product.metafields.my_fields.image_1 != blank %}
+        
+            <div class="metafields-image-box">
+                <img src="{{ product.metafields.my_fields.image_1 | img_url: '2048x' }}" alt="">
+                <p>*メタフィールドイメージ例</p>
+            </div>
+            {% endif %}
+        </div>
+        <!-- product-infromation-box  -->
+        <div class="information-box">
+            <div class="product-title-box">
+                <h1>{{ product.title }}</h1>
+                <small>{{ product.title }} - {{ product.selected_or_first_available_variant.title}}</small>
+            </div>
+            <!-- <script type="text/javascript">
+                window.product = {{ product | json }} || {};
+                console.log(window.product)
+            </script> -->
+            <!-- price box  -->
+             <div class="product-price-box">
+        
+                 {% if product.compare_at_price and product.compare_at_price != product.price %}
+                 <h3 class="sale-price">Sale Price! {{ product.selected_or_first_available_variant.price | money }}</h3>
+                 <h4 class="old-price" >{{ product.compare_at_price | money }}</h4>
+                 {% else %}
+                 <h3 class="regular-price">{{ product.selected_or_first_available_variant.price | money }}</h3>
+                 {% endif %}
+            </div>
+            <!-- variant option selector  -->
+            <div class="variant-select" style="display:none">
+                {% for product_option in product.options_with_values %}
+                    <select data-index="option{{forloop.index}}" id="" name="">
+                        {% for value in product_option.values %}
+                            <option value="{{ value | escape }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                {% endfor %}
+            </div>
+        
+        
+            {%- comment -%}
+                {% if product.price != product.price_max %}
+                    <h5 style="text-align: end; margin: 5px 20px;">{{ product.price | money }}〜{{ product.compare_at_price | money }}</h5>
+                {% endif %}
+                {%- endcomment -%}
+        
+            <div class="product-variants-master-select">
+
+                <form action="/cart/add" enctype="multipart/form-data" id="AddToCartForm" method="post">
+                    <!-- variant radio   -->
+        
+                    {% render 'product-variant-radio' product:product %}
+        
+                    <!-- variant master  -->
+                    <div class="form-control">
+                        <select id="productSelect" name="id">
+                            {% for variant in product.variants %}
+                                {% if variant.available %}
+                                    <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                                        {{ variant.title }}
+                                        -
+                                        {{ variant.price | money_with_currency }}
+                                    </option>
+                                {% else %}
+        
+                                    <option disabled="disabled">
+                                        {{ variant.title }}
+                                        - sold out
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+        
+                    <div class="form-control quantity">
+                        <label for="Quantity">数量</label>
+                        <input id="Quantity" min="1" name="quantity" type="number" value="1">
+                    </div>
+                    <div class="form-control">
+                        <button class="btn btn-primary" id="AddToCart" name="add" type="submit">カートに入れる</button>
+                    </div>
+                </form>
+            </div>
+            <!-- product descrtiption box -->
+            <div class="product-description-box">
+                {{ product.description }}
+            </div>
+            <!-- product metafields table  -->
+            <div class="product-metafields-myfields">
+              {% render 'product-metafields-table' product:product %}
+            </div>
+        
+            <!-- APP Product Reviews  -->
+            <div class="product-reviews-box">
+                <div id="shopify-product-reviews" data-id="{{product.id}}">
+                    {{ product.metafields.spr.reviews }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- sticky addtocartform  -->
+
+<div class="sticky-addtocartform-box">
+    <form action="/cart/add" enctype="multipart/form-data" id="stickyAddToCartForm" method="post">
+
+        <div class="form-control">
+            <select id="stickyProductSelect" name="id">
+                {% for variant in product.variants %}
+                    {% if variant.available %}
+                        <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                            {{ variant.title }}
+                            -
+                            {{ variant.price | money_with_currency }}
+                        </option>
+                    {% else %}
+                        <option disabled="disabled">
+                            {{ variant.title }}
+                            - sold out
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <!-- <div class="form-control quantity">
+            <label for="stickyQuantity">数量</label>
+            <input id="stickyQuantity" min="1" name="quantity" type="number" value="1">
+        </div> -->
+
+        <div class="form-control">
+            <button class="btn btn-primary" id="stickyAddToCart" name="add" type="submit">カートに入れる</button>
+        </div>
+    </form>
+
+    <script>
+
+        //sticky-addtocartform box popu up 
+        const initialCoords = document.querySelector('.sticky-addtocartform-box').getBoundingClientRect()
+        const stickyAddToCartFormBox = document.querySelector('.sticky-addtocartform-box')
+        // console.log(initialCoords)
+
+        window.addEventListener('scroll', function () {
+            // console.log(window.scrollY > initialCoords.top)
+            if(window.scrollY > initialCoords.top +50 ) {
+                console.log("on")
+                stickyAddToCartFormBox.classList.add('sticky-on')
+            } else {
+                console.log("off")
+                // stickyAddToCartFormBox.classList.remove('sticky-on')
+            }
+        }
+        );
+
+        // const stickyAddToCartFormBox = document.querySelector('.sticky-addtocartform-box');
+        // // console.log(stickyAddToCartFormBox,'stickyaddto')
+        // const  productVariantsMasterSelect = document.querySelector('.product-variants-master-select')
+        // // console.log(productVariantsMasterSelect,"productvariant test")
+        
+        // const  stickyOn = function (entries){
+        //     console.log(entries)
+        //     const [entry] = entries;
+          
+        // };
+        
+        // const masterSelectObserver = new IntersectionObserver(stickyOn, {
+        //     root: null,
+        //     threshold:1,
+        // })
+        
+        // masterSelectObserver.observe(stickyAddToCartFormBox)
+    </script>
+        

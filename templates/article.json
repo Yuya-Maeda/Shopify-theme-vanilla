@@ -1,0 +1,11 @@
+{
+    "name": "article",
+    "sections": {
+      "main": {
+        "type": "main-article-template"
+      }
+    },
+    "order": [
+      "main"      
+    ]
+  }
